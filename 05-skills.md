@@ -27,7 +27,5 @@ See: [Token impact](https://docs.openclaw.ai/tools/skills#token-impact-skills-li
 
 ### Write an email skill
 
-https://myaccount.google.com/apppasswords
-
 - SMTP_EMAIL
-- SMTP_PASSWORD
+- [SMTP_PASSWORD](https://myaccount.google.com/apppasswords)

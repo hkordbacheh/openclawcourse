@@ -1,1 +1,1 @@
-Let's setup a personal [assitant](https://docs.openclaw.ai/start/openclaw)!
+Let's setup a personal [assistant](https://docs.openclaw.ai/start/openclaw)!
