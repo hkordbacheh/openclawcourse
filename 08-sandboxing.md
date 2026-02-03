@@ -1,4 +1,3 @@
-
 ### Sandboxing
 
 - Optional Docker-based isolation for tool execution; Gateway stays on host.

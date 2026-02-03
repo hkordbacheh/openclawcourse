@@ -1,14 +1,13 @@
 # Skills System
 
-**Learning objectives:** Learners understand the AgentSkills format (SKILL.md + YAML frontmatter), skill resolution (workspace → ~/.openclaw/skills → bundled), how to write a minimal custom skill, and how eligibility (os, requiredBinaries, env) and token cost work.
-
----
-
 ## Key Concepts
 
 ### What skills are
 
 - AgentSkills-compatible folders: each skill is a directory with **SKILL.md** (YAML frontmatter + instructions). They teach the agent how to use tools.
+- Per-agent skills live in <workspace>/skills for that agent only.
+- Shared skills live in ~/.openclaw/skills (managed/local) and are visible to all agents on the same machine.
+- Set user-invocable: true to invoke skills manually.
 
 See: [Skills](https://docs.openclaw.ai/tools/skills)
 
@@ -29,11 +28,6 @@ See: [Token impact](https://docs.openclaw.ai/tools/skills#token-impact-skills-li
 ### Write an email skill
 
 https://myaccount.google.com/apppasswords
+
 - SMTP_EMAIL
 - SMTP_PASSWORD
-
-
-Per-agent skills live in <workspace>/skills for that agent only.
-Shared skills live in ~/.openclaw/skills (managed/local) and are visible to all agents on the same machine.
-
-you can add user-invocable: to invoke skillswith a slash command
