@@ -1,4 +1,4 @@
-0. [What is OpenClaw?](00-what-is-openclaw.md)
+0. [OpenClaw](00-openclaw.md)
 1. [Install & First Run](01-install-first-run.md)
 2. [Workspace & Memory](02-workspace-memory.md)
 3. [Pinchboard](03-pinchboard.md)
