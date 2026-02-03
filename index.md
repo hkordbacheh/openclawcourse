@@ -5,5 +5,5 @@
 4. [Personal Assistant](04-personal-assistant.md)
 5. [Skills](05-skills.md)
 6. [Multi-Agent](06-multi-agent.md)
-7. [Automation & Security](07-automation-security.md)
+7. [Security](07-security.md)
 8. [Sandboxing](08-sandboxing.md)
