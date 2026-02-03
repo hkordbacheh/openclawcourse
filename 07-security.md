@@ -7,3 +7,5 @@
 - **Tool policy:** Use `tools.deny` to block dangerous tools (like `exec`, `process`, `browser`) for agents handling untrusted input. Elevated mode bypasses the sandbox and runs on the host—never grant it to unknown senders.
 
 - **Browser control:** The browser tool can navigate to any URL and interact with pages, making it high-risk for automation attacks. Restrict browser access by channel or sender allowlist. When possible, use the sandboxed browser to limit exposure.
+
+- ![](/list.png)
