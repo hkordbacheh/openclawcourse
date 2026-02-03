@@ -25,3 +25,15 @@ See: [Token impact](https://docs.openclaw.ai/tools/skills#token-impact-skills-li
 
 [Security notes](https://docs.openclaw.ai/tools/skills#security-notes).
 [ClawHub](https://docs.openclaw.ai/tools/clawhub)
+
+### Write an email skill
+
+https://myaccount.google.com/apppasswords
+- SMTP_EMAIL
+- SMTP_PASSWORD
+
+
+Per-agent skills live in <workspace>/skills for that agent only.
+Shared skills live in ~/.openclaw/skills (managed/local) and are visible to all agents on the same machine.
+
+you can add user-invocable: to invoke skillswith a slash command

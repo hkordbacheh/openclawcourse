@@ -1,69 +1,17 @@
-# Lesson 7: Automation & Security (~20 min)
+# Automation & Security
 
-**Learning objectives:** Learners know how to add cron jobs and heartbeats, what webhooks and Gmail PubSub are for, and core security posture: prompt injection risks, sandbox practices, tool deny lists, and browser control risks.
-
----
-
-## Key Concepts
-
-### Cron jobs
+## Cron jobs
 
 - Gateway scheduler: run tasks on a schedule (e.g. daily summary). Config under `cron`.
 
+## Security posture
+
+- **Prompt injection:** Malicious users can craft messages that trick the agent into running unintended commands. Smaller models are more susceptible. Mitigate by enabling sandbox mode and restricting tool access for channels that accept messages from untrusted or unknown senders.
+
+- **Sandbox:** Docker-based isolation runs tool execution in a container, protecting your host system. Set `sandbox.mode` to `non-main` (sandbox everyone except your main session) or `all` (sandbox everything). Use `sandbox.scope` to control container lifecycle (`session`, `agent`, or `shared`) and `workspaceAccess` to limit file access (`none`, `ro`, `rw`).
+
+- **Tool policy:** Use `tools.deny` to block dangerous tools (like `exec`, `process`, `browser`) for agents handling untrusted input. Elevated mode bypasses the sandbox and runs on the host—never grant it to unknown senders.
+
+- **Browser control:** The browser tool can navigate to any URL and interact with pages, making it high-risk for automation attacks. Restrict browser access by channel or sender allowlist. When possible, use the sandboxed browser to limit exposure.
+
 See: [Cron Jobs](https://docs.openclaw.ai/automation/cron-jobs), [Cron vs Heartbeat](https://docs.openclaw.ai/automation/cron-vs-heartbeat)
-
-### Heartbeats
-
-- Periodic agent runs (e.g. read HEARTBEAT.md, act, reply HEARTBEAT_OK). Config: `agents.defaults.heartbeat` or per-agent `agents.list[].heartbeat`.
-
-See: [Gateway Heartbeat](https://docs.openclaw.ai/gateway/heartbeat)
-
-### Webhooks + Gmail PubSub
-
-- Inbound triggers for automation (e.g. webhook URL, Gmail PubSub for email-driven flows).
-
-See: [Webhooks](https://docs.openclaw.ai/automation/webhook), [Gmail PubSub](https://docs.openclaw.ai/automation/gmail-pubsub)
-
-### Hooks
-
-- e.g. voice transcription (SOUL Evil Hook).
-
-See: [Hooks](https://docs.openclaw.ai/hooks)
-
-### Security posture
-
-- **Prompt injection:** smaller models more susceptible; use sandbox + tool policy for untrusted or high-risk channels.
-- **Sandbox:** default non-main or all; scope session/agent; limit workspaceAccess.
-- **Tool policy:** deny lists for untrusted agents; avoid granting elevated exec to unknown senders.
-- **Browser control:** high risk; gate by channel/sender; prefer sandboxed browser when possible.
-
-See: [Security](https://docs.openclaw.ai/gateway/security), [Formal Verification (Security Models)](https://docs.openclaw.ai/security/formal-verification) (optional read)
-
----
-
-## Lesson Plan
-
-| Segment | Duration | Activity |
-|---------|----------|----------|
-| Cron + heartbeat | 6 min | Show cron config example; show heartbeat config and HEARTBEAT.md. |
-| Webhooks / Gmail | 3 min | One slide or paragraph: what they're for; link to docs. |
-| Security posture | 8 min | Prompt injection; sandbox as default; tool deny lists; elevated and browser risks. |
-| Checklist | 3 min | "Before going to production": allowlist, sandbox, deny list, no secrets in workspace. |
-
----
-
-## Doc References
-
-- [Cron Jobs](https://docs.openclaw.ai/automation/cron-jobs)
-- [Cron vs Heartbeat](https://docs.openclaw.ai/automation/cron-vs-heartbeat)
-- [Webhooks](https://docs.openclaw.ai/automation/webhook)
-- [Gmail PubSub](https://docs.openclaw.ai/automation/gmail-pubsub)
-- [Security](https://docs.openclaw.ai/gateway/security)
-- [Hooks](https://docs.openclaw.ai/hooks)
-
----
-
-## Checklist (Instructor)
-
-- [ ] Emphasize: security is non-negotiable for multi-user or high-trust scenarios; sandbox + tool policy are the main levers.
-- [ ] Mention `openclaw doctor`, `openclaw status --all` for health before/after changes (bridge to Lesson 8).
