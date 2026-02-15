@@ -371,8 +371,8 @@ A dedicated orchestrator (`skills/transcribe-orchestrator/`) for all audio trans
 | Skill | Type | Purpose |
 |-------|------|---------|
 | `brave-search` | Instructions | Web search via Brave API |
-| `dalle-image-generator` | Script | Generate images (gpt-image-1.5) |
-| `image-prompt-generator` | Script | Generate DALL-E prompts from news via GPT-4o |
+| `dalle-image-generator` | Script | Generate images (gpt-image-1.5) — 60s rate limiter prevents rapid-fire regeneration |
+| `image-prompt-generator` | Script | Generate DALL-E prompts from news via GPT-4o (sequential style/subject rotation via state.json) |
 | `iran-hawks-engagement` | Instructions | Prepare responses to Iran hawks' tweets |
 | `iran-awareness-influencers` | Instructions | Comment on global influencer tweets |
 | `iran-revolution-engagement` | Instructions | Search and reply to Iran revolution tweets |
@@ -507,6 +507,20 @@ The Puppeteer-based media posting tool had a silent failure mode: after calling 
 - If thumbnail found → proceeds with 2-second processing buffer
 - If no thumbnail after 10 seconds → **throws error**, tweet is NOT posted
 - Prevents text-only tweets from being posted when image upload fails
+
+### DALL-E Generation Rate Limiting and Image Variety
+
+Two problems caused wasted OpenAI credits and repetitive images:
+
+**Problem 1: Rapid-fire generation.** When a cron session failed mid-pipeline, gpt-4o-mini retried the DALL-E generation step repeatedly — 13 images generated in 12 minutes during one failed session, none posted.
+
+**Fix:** `dalle_image_generator.py` now has a 60-second lockfile rate limiter. If called within 60s of the last generation, it returns an error: "Rate limited — do NOT retry." The cron payload also explicitly says "Call EXACTLY ONCE. If it fails, STOP THE ENTIRE SESSION."
+
+**Problem 2: Repetitive image concepts.** `prompt_generator.py` used `random.choice()` on 15 styles and 18 subjects with no memory, so the same combinations (split compositions, woman removing headscarf) appeared repeatedly.
+
+**Fix:** Replaced `random.choice()` with sequential rotation via `state.json`. Each run advances both `style_index` and `subject_index` by 1, cycling through all 15×18 = 270 unique combinations before any repeat.
+
+**Files:** `skills/dalle-image-generator/dalle_image_generator.py`, `skills/image-prompt-generator/prompt_generator.py`, `skills/image-prompt-generator/state.json`
 
 ### Repo Consolidation
 
