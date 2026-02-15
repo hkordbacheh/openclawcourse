@@ -552,7 +552,7 @@ openclaw gateway restart
 | Twitter Follower Growth v2 | Every 1 hour | **Disabled** | References `twitter-follower-growth` skill |
 | Iran Revolution Media Generator | Every 3 hours | Enabled | References `iran-revolution-media-generator` skill |
 | Iranian Global March Engagement | Every 1 hour | Enabled | Inline steps with `tweet-crafter` rules for context-aware replies (no fixed template) |
-| Iran Protest Media Poster | Every 2 hours | Enabled | Inline steps with `tweet-crafter` rules for unique city-specific tweets (no fixed template) |
+| Iran Protest Media Poster | Every 1 hour | Enabled | Inline steps with `tweet-crafter` rules for unique city-specific tweets, post verification via `get_user_tweets` |
 
 **File:** `~/.openclaw/cron/jobs.json`
 
