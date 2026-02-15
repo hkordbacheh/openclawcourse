@@ -380,6 +380,7 @@ A dedicated orchestrator (`skills/transcribe-orchestrator/`) for all audio trans
 | `iran-protest-media-poster` | Orchestrator | Download real protest photos from web → tweet with media |
 | `twitter-topic-engagement` | Orchestrator | Find tweets about a topic (Brave + timeline + key accounts) → reply |
 | `tweet-crafter` | Guidelines | General-purpose tweet/reply text generator — no fixed templates, unique output each run |
+| `twitter-image-fetcher` | Script | Fetch real photos from curated Iran-movement Twitter accounts (11 accounts, rotation, MEK filter) |
 | `mek-content-filter` | Guardrail | Filters out MEK/NCRI/Maryam Rajavi content from all Iran pipelines |
 | `task-orchestrator` | Orchestrator | Master task router and skill reference |
 | `transcribe-orchestrator` | Orchestrator | Audio transcription and meeting notes |
