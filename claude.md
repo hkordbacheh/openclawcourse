@@ -562,7 +562,7 @@ openclaw gateway restart
 |-----|----------|--------|---------|
 | Iran Hawks Engagement Loop | Every 2 hours | Enabled | Uses `get_user_tweets` (not search) + `iran-hawks-engagement` skill + `facts.md` |
 | Twitter Follower Growth v2 | Every 1 hour | **Disabled** | References `twitter-follower-growth` skill |
-| Iran Revolution Media Generator | Every 3 hours | Enabled | References `iran-revolution-media-generator` skill |
+| Iran Revolution Media Generator | Every 3 hours | Enabled | Inline steps: news search → DALL-E image (120s timeout) → tweet-crafter text → post with media + verification |
 | Iranian Global March Engagement | Every 1 hour | Enabled | Inline steps with `tweet-crafter` rules for context-aware replies (no fixed template) |
 | Iran Protest Media Poster | Every 1 hour | Enabled | Inline steps with `tweet-crafter` rules for unique city-specific tweets, post verification via `get_user_tweets` |
 
