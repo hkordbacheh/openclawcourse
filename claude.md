@@ -497,6 +497,17 @@ Twitter requires DIFFERENT feature flag objects per GraphQL endpoint. Sending th
 
 The Puppeteer-based reply tool had intermittent "Waiting for selector" failures due to `networkidle2` hanging on Twitter's persistent connections. Fixed by switching to `domcontentloaded` + 3s render delay + 3-attempt retry (15s timeout each). All skills now use `twitter_get_user_tweets` (not search) and `twitter_reply_to_tweet` with proper MCP tool names.
 
+### Media Upload Verification (`twitter_post_tweet_with_media`)
+
+The Puppeteer-based media posting tool had a silent failure mode: after calling `.uploadFile()`, it waited a fixed 5 seconds without verifying the image actually attached to the DOM. If the upload failed (Twitter rejection, network error, wrong format), the tweet posted as **text-only** and the tool returned `"Tweet with media posted successfully"` — a false positive.
+
+**Fix:** Replaced blind 5-second wait with a DOM verification loop:
+- Checks every 1 second (up to 10 seconds) for image thumbnail selectors in the compose UI
+- Selectors checked: `[data-testid="attachments"] img`, `img[src*="blob:"]`, `[role="progressbar"]`
+- If thumbnail found → proceeds with 2-second processing buffer
+- If no thumbnail after 10 seconds → **throws error**, tweet is NOT posted
+- Prevents text-only tweets from being posted when image upload fails
+
 ### Repo Consolidation
 
 Two Twitter MCP repos existed: `agent-twitter-mcp` (inactive, legacy) and `twitter-mcp-standalone` (active). Ported three useful features from `agent-twitter-mcp` → `twitter-mcp-standalone`, then deleted `agent-twitter-mcp`.
