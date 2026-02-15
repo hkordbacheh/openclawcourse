@@ -371,7 +371,7 @@ A dedicated orchestrator (`skills/transcribe-orchestrator/`) for all audio trans
 | Skill | Type | Purpose |
 |-------|------|---------|
 | `brave-search` | Instructions | Web search via Brave API |
-| `dalle-image-generator` | Script | Generate images (gpt-image-1.5) — 60s rate limiter prevents rapid-fire regeneration |
+| `dalle-image-generator` | Script | Generate images (gpt-image-1.5) — 60s rate limiter, Persian flag reference via `--reference` (soft fallback) |
 | `image-prompt-generator` | Script | Generate DALL-E prompts from news via GPT-4o (sequential style/subject rotation via state.json) |
 | `iran-hawks-engagement` | Instructions | Prepare responses to Iran hawks' tweets |
 | `iran-awareness-influencers` | Instructions | Comment on global influencer tweets |
@@ -521,6 +521,15 @@ Two problems caused wasted OpenAI credits and repetitive images:
 **Fix:** Replaced `random.choice()` with sequential rotation via `state.json`. Each run advances both `style_index` and `subject_index` by 1, cycling through all 15×18 = 270 unique combinations before any repeat.
 
 **Files:** `skills/dalle-image-generator/dalle_image_generator.py`, `skills/image-prompt-generator/prompt_generator.py`, `skills/image-prompt-generator/state.json`
+
+### Persian Flag Reference Image
+
+The DALL-E generator accepts `--reference <path>` to pass a reference image of the correct Persian kingdom flag (Shir-o-Khorshid — lion and sun). When provided, it uses OpenAI's `images.edit()` API to pass the flag as visual context so generated images show the correct flag design.
+
+- **Reference file:** `media/reference/reference-persian_kingdom_flag.jpg`
+- **Soft fallback:** If `images.edit()` fails (API incompatibility, model doesn't support it), it silently falls back to `images.generate()` without reference — image generation never breaks
+- **Creativity preserved:** The reference instruction explicitly says "FLAG REFERENCE ONLY" — only constrains the flag design, full creative freedom for everything else
+- **Output:** JSON includes `"used_reference": true/false` to track which path was used
 
 ### Repo Consolidation
 
